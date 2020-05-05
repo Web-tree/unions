@@ -3,7 +3,7 @@ name: web-validate
 on:
   push:
     paths:
-      - web/**
+      - ./web/**
       - .github/workflows/web-validate.yml
 
 jobs:
