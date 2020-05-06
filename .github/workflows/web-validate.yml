@@ -1,0 +1,33 @@
+name: web-validate
+
+on:
+  push:
+    paths:
+      - ./web/**
+      - .github/workflows/web-validate.yml
+
+jobs:
+  validate:
+    env:
+      workDir: ./web
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12.x
+    - name: Setup angular cli
+      run: npm install -g @angular/cli
+    - name: Install dependencies
+      working-directory: ${{ env.workDir }}
+      run: npm ci
+    - name: Run tests
+      working-directory: ${{ env.workDir }}
+      run: ng test --watch=false --browsers=ChromeHeadless
+    - name: Lint
+      working-directory: ${{ env.workDir }}
+      run: ng lint
+    - name: Build prod
+      working-directory: ${{ env.workDir }}
+      run: ng build --prod
