@@ -12,7 +12,9 @@ tasks.register<org.unbrokendome.gradle.plugins.helm.command.tasks.HelmInstallOrU
     chart.set("incubator/orientdb")
     releaseName.set("unions-orientdb")
     values.set(mapOf(
-            "rootPassword" to "password"
+            "rootPassword" to "password",
+            "resources.requests.cpu" to "0",
+            "resources.requests.memory" to "0"
     ))
 }
 
