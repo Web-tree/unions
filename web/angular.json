@@ -127,5 +127,8 @@
       }
     }
   },
-  "defaultProject": "unions-web"
+  "defaultProject": "unions-web",
+  "cli": {
+    "analytics": "8d65bdc9-2ec9-4bdd-99d7-4c260b9c5c4f"
+  }
 }
