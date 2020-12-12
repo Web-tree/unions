@@ -10,7 +10,7 @@
     ]
   },
   "hosting": {
-    "public": "dist/unions",
+    "public": "web/dist/unions-web",
     "ignore": [
       "firebase.json",
       "**/.*",
