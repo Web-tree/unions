@@ -1,0 +1,29 @@
+<button (click)="back()" class="navigation-button" color="primary" mat-flat-button>
+  <mat-icon aria-hidden="false" aria-label="Back">arrow_back</mat-icon>
+  Back
+</button>
+<h2>Add data</h2>
+<form (ngSubmit)="onSubmit()" [formGroup]="form">
+  <div>
+    <mat-form-field hintLabel="Globally unique name of Union">
+      <input autofocus formControlName="id" matInput placeholder="Union id"/>
+      <mat-error *ngIf="id.dirty && id.errors">
+        <span *ngIf="id.errors.pattern">
+          Name can contain only numbers, characters and spaces.
+        </span>
+        <span *ngIf="id.errors.idExists">
+          This name already exists.
+        </span>
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field>
+      <input formControlName="displayName" matInput placeholder="Display name"/>
+      <mat-error *ngIf="displayName.hasError('email')">
+        Please enter a valid email address
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <button [disabled]="!form.valid || inProgress" color="accent" mat-raised-button type="submit">Add</button>
+</form>

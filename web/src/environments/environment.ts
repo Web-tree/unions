@@ -4,9 +4,12 @@
 
 export const environment = {
   production: false,
-  authUrl: 'http://localhost:3000',
-  authUrlBack: 'http://localhost:3000',
-
+  authUrl: 'https://auth.dev.webtree.org',
+  authUrlBack: 'https://auth-api.webtree.org',
+  back: {
+    // create: 'https://europe-west1-webtree-unions.cloudfunctions.net/createUnion'
+    create: 'http://localhost:5000/webtree-unions/europe-west1/createUnion'
+  },
 };
 
 /*

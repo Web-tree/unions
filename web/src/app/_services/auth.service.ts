@@ -16,11 +16,21 @@ export class AuthService {
   }
 
   getUser(): Promise<User> {
-    return this.http.post(environment.authUrl + '/rest/checkToken', this.tokenService.getToken()).toPromise();
+    return this.http.post(environment.authUrlBack + '/rest/checkToken', this.tokenService.getToken()).toPromise();
   }
 
   isLoggedIn(): boolean {
     return this.tokenService.tokenExists();
+  }
+
+  isTokenValid(): Promise<boolean> {
+    return this
+      .getUser()
+      .then(() => Promise.resolve(true))
+      .catch(reason => {
+        console.log(reason);
+        return false;
+      });
   }
 
   logout(): void {
