@@ -1,8 +1,16 @@
-import {HTTP_INTERCEPTORS, HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
+import {
+  HTTP_INTERCEPTORS,
+  HttpErrorResponse,
+  HttpEvent,
+  HttpHandler,
+  HttpInterceptor,
+  HttpRequest,
+} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
+import {Observable, throwError} from 'rxjs';
 import {AlertService} from '../_services/alert.service';
 import {AuthService} from '../_services/auth.service';
+import {catchError} from 'rxjs/operators';
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
@@ -14,18 +22,17 @@ export class HttpErrorInterceptor implements HttpInterceptor {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const observable = next.handle(req);
-    observable.toPromise().catch(error => {
-      if (error instanceof HttpErrorResponse) {
+    return next.handle(req).pipe(
+      catchError((error: HttpErrorResponse) => {
         if (error.status === 0 || error.status.toString().startsWith('5')) {
           this.alertService.error(error.message);
         } else if (error.status === 401) {
           this.alertService.error('Your session expired. Please login again.');
           this.authService.logout();
         }
-      }
-    });
-    return observable;
+        return throwError(error);
+      })
+    );
   }
 }
 
