@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {environment} from '../../environments/environment';
-import {Union} from '../_models/union';
+import {Union} from '@webtree/unions-common/lib/model/union';
 
 @Injectable({
   providedIn: 'root'
@@ -30,9 +30,9 @@ export class UnionsService {
     return this.httpClient.put(environment.back.create, union).toPromise();
   }
 
-  // get(name: string): Promise<Data> {
-  //   return this.httpClient.get<Data>(environment.backendUrl + '/data/' + name).toPromise();
-  // }
+  get(id: string): Promise<Union> {
+    return this.httpClient.get<Union>(environment.back.get + '/' + id).toPromise();
+  }
   //
   //
   // update(data: Data) {

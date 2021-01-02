@@ -8,7 +8,8 @@ export const environment = {
   authUrlBack: 'https://auth-api.webtree.org',
   back: {
     // create: 'https://europe-west1-webtree-unions.cloudfunctions.net/createUnion'
-    create: 'http://localhost:5000/webtree-unions/europe-west1/createUnion'
+    create: 'http://localhost:5000/webtree-unions/europe-west1/createUnion',
+    get: 'http://localhost:5000/webtree-unions/europe-west1/getUnion'
   },
 };
 

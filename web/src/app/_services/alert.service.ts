@@ -1,23 +1,27 @@
 import {Injectable} from '@angular/core';
-import {MatSnackBar} from "@angular/material/snack-bar";
+import AWN, {Options} from 'awesome-notifications';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AlertService {
+  private readonly awn: AWN;
+  private readonly options: Options;
 
-  constructor(private snackBar: MatSnackBar) {
+  constructor() {
+    this.awn = new AWN();
+    this.options = {
+      durations: {
+        alert: 0
+      }
+    }
   }
 
   success(message: string) {
-    this.snackBar.open(message, 'X', {
-      duration: 5000
-    });
+    this.awn.success(message);
   }
 
   error(message: string) {
-    this.snackBar.open(message, 'X', {
-      duration: 5000
-    });
+    this.awn.alert(message, this.options);
   }
 }

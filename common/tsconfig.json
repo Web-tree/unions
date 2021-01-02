@@ -3,20 +3,18 @@
     "module": "commonjs",
     "noImplicitReturns": true,
     "noUnusedLocals": true,
-    "outDir": "lib",
+    "outDir": "./lib",
     "sourceMap": true,
     "strict": true,
+    "declaration": true,
     "target": "es2017",
-    "experimentalDecorators": true,
-    "baseUrl": ".",
-    "paths": {
-      "@webtree/unions-common": ["node_modules/@webtree/unions-common/src"],
-      "@webtree/unions-common/*": ["node_modules/@webtree/unions-common/src/*"]
-    }
+    "experimentalDecorators": true
   },
   "compileOnSave": true,
   "include": [
     "src"
   ],
+  "exclude": ["node_modules"],
+  "declaration": true,
   "lib": ["es2017"]
 }

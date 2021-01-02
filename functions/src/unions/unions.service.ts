@@ -1,8 +1,8 @@
 import * as functions from 'firebase-functions';
-import {Union} from './union';
 import _ = require('lodash');
 import {DocumentSnapshot} from '@google-cloud/firestore/build/src';
-
+import {Union} from '@webtree/unions-common/lib/model/union';
+import {isValidationError} from '@webtree/unions-common/lib/validators/validate';
 
 const Firestore = require('@google-cloud/firestore');
 const db = new Firestore({
@@ -11,7 +11,7 @@ const db = new Firestore({
 
 export class UnionsService {
     public async put(userId: string, union: Union): Promise<Union> {
-
+        isValidationError("")
         const unionRef = db.collection('unions').doc(union.id!);
         let unionFromDb: DocumentSnapshot<Union> = await unionRef.get();
 

@@ -15,6 +15,7 @@
   "main": "lib/index.js",
   "dependencies": {
     "@google-cloud/firestore": "^4.8.1",
+    "@webtree/unions-common": "^1.0.1",
     "class-transformer": "^0.3.1",
     "class-transformer-validator": "^0.9.1",
     "class-validator": "^0.12.2",

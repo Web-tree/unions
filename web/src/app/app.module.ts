@@ -18,7 +18,6 @@ import {MatOptionModule} from '@angular/material/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatInputModule} from '@angular/material/input';
 import {TokenInterceptorProvider} from './_interceptors/token.interceptor';
 import {HttpErrorInterceptorProvider} from './_interceptors/http-error.interceptor';
@@ -42,7 +41,6 @@ import {HttpErrorInterceptorProvider} from './_interceptors/http-error.intercept
     MatInputModule,
     MatFormFieldModule,
     MatIconModule,
-    MatSnackBarModule,
     ReactiveFormsModule,
   ],
   providers: [

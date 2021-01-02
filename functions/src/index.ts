@@ -1,12 +1,12 @@
 import * as functions from 'firebase-functions';
 import {AuthService} from './auth/auth.service';
 import {UnionsService} from './unions/unions.service';
-import {Union} from './unions/union';
 import {transformAndValidateSync} from 'class-transformer-validator';
 import {RequestService} from './request/request.service';
 import * as NodeCache from 'node-cache';
 import {isHttpError} from './errors/http.error';
-import {ValidationError} from 'class-validator';
+import {Union} from '@webtree/unions-common/lib/model/union';
+import {isValidationError} from '@webtree/unions-common/lib/validators/validate';
 
 
 // // Start writing Firebase Functions
@@ -22,6 +22,7 @@ export const createUnion = functions
     .https
     .onRequest(async (request, response) => {
         functions.logger.debug(request.method);
+
         response.set('Access-Control-Allow-Origin', '*');
 
         try {
@@ -41,9 +42,11 @@ export const createUnion = functions
                     response.status(405).send('Method not allowed')
             }
         } catch (e) {
+            functions.logger.log(321, isValidationError(e))
             if (isHttpError(e)) {
                 response.status(e.code).send(e.message);
-            } else if (e instanceof ValidationError){
+            } else if (isValidationError(e)) {
+
                 response.status(400).send(e);
             } else {
                 functions.logger.error(e);
