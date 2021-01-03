@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {AuthService} from '../_services/auth.service';
-import {User} from '../_models/user';
-import {environment} from '../../environments/environment';
+import {AuthService} from '../../_services/auth.service';
+import {User} from '../../_models/user';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-profile-logo',

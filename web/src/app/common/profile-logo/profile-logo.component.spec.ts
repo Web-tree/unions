@@ -2,13 +2,13 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {ProfileLogoComponent} from './profile-logo.component';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
-import {AuthService} from '../_services/auth.service';
-import {User} from '../_models/user';
-import {MatMenuModule} from '@angular/material';
+import {AuthService} from '../../_services/auth.service';
+import {User} from '../../_models/user';
 import {By} from '@angular/platform-browser';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
-import {environment} from '../../environments/environment';
+import {environment} from '../../../environments/environment';
 import SpyObj = jasmine.SpyObj;
+import { MatMenuModule } from '@angular/material/menu';
 
 describe('ProfileLogoComponent', () => {
   let component: ProfileLogoComponent;
@@ -67,7 +67,7 @@ describe('ProfileLogoComponent', () => {
     });
   });
   describe('when logged in', () => {
-    let button;
+    let button: any;
     beforeEach(() => {
       authService.isLoggedIn.and.callFake(() => true);
       authService.getUser.and.callFake(() => Promise.resolve<User>({username: 'someName'}));

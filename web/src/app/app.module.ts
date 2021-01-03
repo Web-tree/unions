@@ -5,7 +5,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {MatCardModule} from "@angular/material/card";
 import {MatToolbarModule} from "@angular/material/toolbar";
-import {ProfileLogoComponent} from "./profile-logo/profile-logo.component";
+import {ProfileLogoComponent} from "./common/profile-logo/profile-logo.component";
 import {TokenService} from "./_services/token.service";
 import {AuthService} from "./_services/auth.service";
 import {AlertService} from "./_services/alert.service";
