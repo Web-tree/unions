@@ -22,6 +22,7 @@ import {MatInputModule} from '@angular/material/input';
 import {TokenInterceptorProvider} from './_interceptors/token.interceptor';
 import {HttpErrorInterceptorProvider} from './_interceptors/http-error.interceptor';
 import {ApplyTokenComponent} from './common/apply-token/apply-token.component';
+import { AboutComponent } from './about/about.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import {ApplyTokenComponent} from './common/apply-token/apply-token.component';
     AddComponent,
     ApplyTokenComponent,
     ProfileLogoComponent,
+    AboutComponent,
   ],
   imports: [
     BrowserModule,
