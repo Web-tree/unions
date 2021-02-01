@@ -14,14 +14,14 @@ export class AlertService {
       durations: {
         alert: 0
       }
-    }
+    };
   }
 
-  success(message: string) {
+  success(message: string): void {
     this.awn.success(message);
   }
 
-  error(message: string) {
+  error(message: string): void {
     this.awn.alert(message, this.options);
   }
 }

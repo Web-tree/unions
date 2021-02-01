@@ -31,7 +31,7 @@ export class UnionsService {
         return Promise.resolve(unionFromDb.data()!);
     }
 
-    // public get(id: string) {
-    //     return db.collection('unions').doc(id);
-    // }
+    public get(id: string) {
+        return db.collection('unions').doc(id);
+    }
 }

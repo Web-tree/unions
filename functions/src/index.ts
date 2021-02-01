@@ -21,10 +21,7 @@ export const createUnion = functions
     .region('europe-west1')
     .https
     .onRequest(async (request, response) => {
-        functions.logger.debug(request.method);
-
         response.set('Access-Control-Allow-Origin', '*');
-
         try {
             switch (request.method) {
                 case 'OPTIONS':
@@ -42,11 +39,9 @@ export const createUnion = functions
                     response.status(405).send('Method not allowed')
             }
         } catch (e) {
-            functions.logger.log(321, isValidationError(e))
             if (isHttpError(e)) {
                 response.status(e.code).send(e.message);
             } else if (isValidationError(e)) {
-
                 response.status(400).send(e);
             } else {
                 functions.logger.error(e);
@@ -54,5 +49,3 @@ export const createUnion = functions
             }
         }
     });
-
-

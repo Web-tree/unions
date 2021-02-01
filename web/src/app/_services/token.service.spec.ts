@@ -15,7 +15,7 @@ describe('TokenService', () => {
 
     });
 
-    tokenService = TestBed.get(TokenService);
+    tokenService = TestBed.inject(TokenService);
     tokenName = 'token';
     token = 'Bearer sometokenhere';
     localStorage.clear();

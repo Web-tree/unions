@@ -17,7 +17,7 @@ export class ApplyTokenComponent implements OnInit {
   ) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.route.fragment.subscribe((fragment: string) => {
       const params = new HttpParams({fromString: fragment});
       this.tokenService.saveToken(params.get('token')!);

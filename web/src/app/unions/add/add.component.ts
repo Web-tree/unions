@@ -4,6 +4,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {AlertService} from '../../_services/alert.service';
 import {Router} from '@angular/router';
 import {UnionsService} from '../../_services/unions.service';
+import {Union} from '@webtree/unions-common/lib/model/union';
 
 @Component({
   selector: 'app-add',
@@ -29,32 +30,31 @@ export class AddComponent implements OnInit {
     private fb: FormBuilder,
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
   }
 
-  back() {
+  back(): void {
     this.location.back();
   }
 
-  onSubmit() {
+  onSubmit(): void {
     this.inProgress = true;
-    const union = this.form?.value;
-    union.name = this.getFormattedName();
+    const union: Union = {
+      id: this.id.value(),
+      displayName: this.displayName.value()
+    };
+
     this.dataService.add(union).then(() => {
       this.alertService.success('Union is added successfully');
-      this.router.navigate(['/' + union.name]);
+      this.router.navigate(['/' + union.id]);
     }).finally(() => this.inProgress = false);
   }
 
-  private regenerateForm() {
+  private regenerateForm(): FormGroup {
     this.form = this.fb.group({
       id: this.id,
       displayName: this.displayName,
     });
     return this.form;
-  }
-
-  private getFormattedName() {
-    return this.id.value.trim().toLowerCase().replace(/\s+/g, '-');
   }
 }

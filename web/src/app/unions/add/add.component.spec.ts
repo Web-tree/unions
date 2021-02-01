@@ -1,20 +1,23 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {AddComponent} from './add.component';
-import {MatFormFieldModule, MatIconModule, MatInputModule, MatSelectModule} from '@angular/material';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {Location, LocationStrategy} from '@angular/common';
+import {Location} from '@angular/common';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {UnionsService} from '../../_services/unions.service';
 import {By} from '@angular/platform-browser';
 import {AlertService} from '../../_services/alert.service';
 import {RouterTestingModule} from '@angular/router/testing';
+import {MatIconModule} from '@angular/material/icon';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatSelectModule} from '@angular/material/select';
 
 describe('AddComponent', () => {
   let component: AddComponent;
   let fixture: ComponentFixture<AddComponent>;
   let dataService: UnionsService;
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         AddComponent,
@@ -37,7 +40,7 @@ describe('AddComponent', () => {
       ]
     })
       .compileComponents();
-    dataService = TestBed.get(UnionsService);
+    dataService = TestBed.inject(UnionsService);
   }));
 
   beforeEach(() => {
@@ -51,14 +54,15 @@ describe('AddComponent', () => {
   });
 
   it('should call add method on form submit', () => {
-    dataService.get = jasmine.createSpy().and.returnValue(Promise.reject()); // passing uniq validator
+    // dataService.get = jasmine.createSpy().and.returnValue(Promise.reject()); // passing uniq validator
 
-    component.form.controls.name.setValue('a Name');
-    component.form.controls.value.setValue('aValue');
-    component.form.controls.type.setValue('other');
+    component.form.controls.id.setValue('someId');
+    component.form.controls.displayName.setValue('someName');
 
     fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
 
-    expect(dataService.add).toHaveBeenCalledWith({name: 'a-name', value: 'aValue', type: 'other'});
+    fixture.detectChanges();
+
+    expect(dataService.add).toHaveBeenCalledWith({id: 'someId', displayName: 'someName'});
   });
 });

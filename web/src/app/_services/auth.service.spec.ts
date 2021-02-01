@@ -19,9 +19,9 @@ describe('AuthService', () => {
           HttpClientTestingModule
         ]
       });
-      service = TestBed.get(AuthService);
-      httpMock = TestBed.get(HttpTestingController);
-      tokenService = TestBed.get(TokenService);
+      service = TestBed.inject(AuthService);
+      httpMock = TestBed.inject(HttpTestingController);
+      tokenService = TestBed.inject(TokenService);
     }
   );
 

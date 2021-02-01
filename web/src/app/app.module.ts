@@ -3,16 +3,16 @@ import {NgModule} from '@angular/core';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {MatCardModule} from "@angular/material/card";
-import {MatToolbarModule} from "@angular/material/toolbar";
-import {ProfileLogoComponent} from "./common/profile-logo/profile-logo.component";
-import {TokenService} from "./_services/token.service";
-import {AuthService} from "./_services/auth.service";
-import {AlertService} from "./_services/alert.service";
-import {MatButtonModule} from "@angular/material/button";
-import {MatMenuModule} from "@angular/material/menu";
+import {MatCardModule} from '@angular/material/card';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {ProfileLogoComponent} from './common/profile-logo/profile-logo.component';
+import {TokenService} from './_services/token.service';
+import {AuthService} from './_services/auth.service';
+import {AlertService} from './_services/alert.service';
+import {MatButtonModule} from '@angular/material/button';
+import {MatMenuModule} from '@angular/material/menu';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {HttpClientModule} from "@angular/common/http";
+import {HttpClientModule} from '@angular/common/http';
 import {AddComponent} from './unions/add/add.component';
 import {MatOptionModule} from '@angular/material/core';
 import {ReactiveFormsModule} from '@angular/forms';
@@ -23,6 +23,7 @@ import {TokenInterceptorProvider} from './_interceptors/token.interceptor';
 import {HttpErrorInterceptorProvider} from './_interceptors/http-error.interceptor';
 import {ApplyTokenComponent} from './common/apply-token/apply-token.component';
 import { AboutComponent } from './about/about.component';
+import { SingleComponent } from './unions/single/single.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { AboutComponent } from './about/about.component';
     ApplyTokenComponent,
     ProfileLogoComponent,
     AboutComponent,
+    SingleComponent,
   ],
   imports: [
     BrowserModule,
