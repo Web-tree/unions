@@ -1,51 +1,70 @@
 import * as functions from 'firebase-functions';
 import {AuthService} from './auth/auth.service';
 import {UnionsService} from './unions/unions.service';
-import {transformAndValidateSync} from 'class-transformer-validator';
 import {RequestService} from './request/request.service';
 import * as NodeCache from 'node-cache';
-import {isHttpError} from './errors/http.error';
 import {Union} from '@webtree/unions-common/lib/model/union';
-import {isValidationError} from '@webtree/unions-common/lib/validators/validate';
+import * as admin from 'firebase-admin';
+import * as express from 'express';
+import * as bodyParser from 'body-parser';
+import {isHttpError} from './errors/http.error';
 
+admin.initializeApp(functions.config().firebase);
+const app = express();
+const main = express();
+const cors = require('cors');
 
-// // Start writing Firebase Functions
-// // https://firebase.google.com/docs/functions/typescript
-//
+main.use('/api/v0', app);
+main.use(bodyParser.json());
 const userCache = new NodeCache();
+
 const authService = new AuthService(userCache);
 const unionsService = new UnionsService();
 const requestService = new RequestService();
 
-export const createUnion = functions
+const corsOptions = {
+    origin: '*',
+};
+app.use(cors(corsOptions));
+
+app.put('/', async (req, res) => {
+    try {
+        const union = req.body as Union;
+        const user = await authService.getUser(requestService.getToken(req));
+        res.send(await unionsService.put(user.id, union));
+    } catch (e) {
+        handleError(e, res);
+    }
+});
+
+app.get('/:unionId', async (req, res) => {
+    try {
+        const union = await unionsService.get(req.params.unionId);
+        res.status(200).send(union);
+    } catch (e) {
+        handleError(e, res);
+    }
+});
+app.get('/', async (req, res) => {
+    try {
+        const user = await authService.getUser(requestService.getToken(req));
+        const unionList = await unionsService.listUnionsByOwner(user.id);
+        res.status(200).send(unionList);
+    } catch (e) {
+        handleError(e, res)
+    }
+})
+
+function handleError(e: any, res: express.Response) {
+    if (isHttpError(e)) {
+        res.status(e.code).send(e.message);
+    } else {
+        functions.logger.error(e);
+        res.status(500).send(e);
+    }
+}
+
+export const unions = functions
     .region('europe-west1')
     .https
-    .onRequest(async (request, response) => {
-        response.set('Access-Control-Allow-Origin', '*');
-        try {
-            switch (request.method) {
-                case 'OPTIONS':
-                    response.set('Access-Control-Allow-Methods', 'GET, PUT');
-                    response.set('Access-Control-Allow-Headers', '*');
-                    response.set('Access-Control-Max-Age', '3600');
-                    response.status(204).send('');
-                    break;
-                case 'PUT':
-                    const union: Union = transformAndValidateSync(Union, request.body as object, {validator: {groups: ['put']}});
-                    const user = await authService.getUser(requestService.getToken(request))
-                    response.send(await unionsService.put(user.id, union));
-                    break;
-                default:
-                    response.status(405).send('Method not allowed')
-            }
-        } catch (e) {
-            if (isHttpError(e)) {
-                response.status(e.code).send(e.message);
-            } else if (isValidationError(e)) {
-                response.status(400).send(e);
-            } else {
-                functions.logger.error(e);
-                response.status(500).send(e);
-            }
-        }
-    });
+    .onRequest(main);

@@ -6,10 +6,11 @@ export const environment = {
   production: false,
   authUrl: 'https://auth.dev.webtree.org',
   authUrlBack: 'https://auth-api.webtree.org',
+  returnUnion: 'localhost',
   back: {
     // create: 'https://europe-west1-webtree-unions.cloudfunctions.net/createUnion'
-    create: 'http://localhost:5000/webtree-unions/europe-west1/createUnion',
-    get: 'http://localhost:5000/webtree-unions/europe-west1/getUnion'
+    url: 'http://localhost:5000/webtree-unions/europe-west1/unions/api/v0',
+    // get: 'http://localhost:5000/webtree-unions/europe-west1/unions'
   },
 };
 

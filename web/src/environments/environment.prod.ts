@@ -2,8 +2,8 @@ export const environment = {
   production: true,
   authUrl: 'https://auth.webtree.org',
   authUrlBack: 'https://auth-api.webtree.org',
+  returnUnion: 'unions',
   back: {
-    create: 'https://europe-west1-webtree-unions.cloudfunctions.net/createUnion',
-    get: 'https://europe-west1-webtree-unions.cloudfunctions.net/getUnion'
+    url: 'https://europe-west1-webtree-unions.cloudfunctions.net/unions/api/v0'
   },
 };

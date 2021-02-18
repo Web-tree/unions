@@ -12,7 +12,7 @@ export class AlertService {
     this.awn = new AWN();
     this.options = {
       durations: {
-        alert: 0
+        alert: 10 * 100 * 30 // 30 seconds
       }
     };
   }

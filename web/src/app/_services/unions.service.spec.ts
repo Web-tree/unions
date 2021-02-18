@@ -54,7 +54,7 @@ describe('DataService', () => {
       const data: Union = {id: 'anId', displayName: 'aName'};
       service.add(data).then();
 
-      const req = httpMock.expectOne(environment.back.create);
+      const req = httpMock.expectOne(environment.back.url);
       expect(req.request.method).toEqual('PUT');
       expect(req.request.body).toEqual(data);
     });

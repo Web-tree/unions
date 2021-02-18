@@ -4,7 +4,6 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {AlertService} from '../../_services/alert.service';
 import {Router} from '@angular/router';
 import {UnionsService} from '../../_services/unions.service';
-import {Union} from '@webtree/unions-common/lib/model/union';
 
 @Component({
   selector: 'app-add',
@@ -39,14 +38,10 @@ export class AddComponent implements OnInit {
 
   onSubmit(): void {
     this.inProgress = true;
-    const union: Union = {
-      id: this.id.value(),
-      displayName: this.displayName.value()
-    };
 
-    this.dataService.add(union).then(() => {
+    this.dataService.add(this.form.value).then(() => {
       this.alertService.success('Union is added successfully');
-      this.router.navigate(['/' + union.id]);
+      this.router.navigate(['/u/' + this.form.value.id]);
     }).finally(() => this.inProgress = false);
   }
 

@@ -22,8 +22,10 @@ import {MatInputModule} from '@angular/material/input';
 import {TokenInterceptorProvider} from './_interceptors/token.interceptor';
 import {HttpErrorInterceptorProvider} from './_interceptors/http-error.interceptor';
 import {ApplyTokenComponent} from './common/apply-token/apply-token.component';
-import { AboutComponent } from './about/about.component';
-import { SingleComponent } from './unions/single/single.component';
+import {AboutComponent} from './about/about.component';
+import {SingleComponent} from './unions/single/single.component';
+import {MyComponent} from './unions/my/my.component';
+import {MatTableModule} from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -33,12 +35,14 @@ import { SingleComponent } from './unions/single/single.component';
     ProfileLogoComponent,
     AboutComponent,
     SingleComponent,
+    MyComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     MatCardModule,
+    MatTableModule,
     MatToolbarModule,
     MatButtonModule,
     MatMenuModule,
