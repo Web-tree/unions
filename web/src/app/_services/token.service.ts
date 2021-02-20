@@ -12,7 +12,7 @@ export class TokenService {
     return localStorage.getItem(this.tokenName);
   }
 
-  saveToken(token: string) {
+  saveToken(token: string): void {
     localStorage.setItem(this.tokenName, token);
   }
 

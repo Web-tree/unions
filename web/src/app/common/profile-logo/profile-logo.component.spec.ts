@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {ProfileLogoComponent} from './profile-logo.component';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
@@ -7,15 +7,15 @@ import {User} from '../../_models/user';
 import {By} from '@angular/platform-browser';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {environment} from '../../../environments/environment';
+import {MatMenuModule} from '@angular/material/menu';
 import SpyObj = jasmine.SpyObj;
-import { MatMenuModule } from '@angular/material/menu';
 
 describe('ProfileLogoComponent', () => {
   let component: ProfileLogoComponent;
   let fixture: ComponentFixture<ProfileLogoComponent>;
   let authService: SpyObj<AuthService>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ProfileLogoComponent],
       providers: [
@@ -31,7 +31,7 @@ describe('ProfileLogoComponent', () => {
       ]
     })
       .compileComponents();
-    authService = TestBed.get(AuthService);
+    authService = TestBed.inject(AuthService) as jasmine.SpyObj<AuthService>;
   }));
 
   beforeEach(() => {
@@ -57,13 +57,13 @@ describe('ProfileLogoComponent', () => {
       const loginButton = getLoginButton();
       expect(loginButton).toBeTruthy();
       expect(loginButton.nativeElement.textContent).toEqual('Login');
-      expect(loginButton.nativeElement.getAttribute('href')).toEqual(environment.authUrl + '/login?returnUnion=imprint');
+      expect(loginButton.nativeElement.getAttribute('href')).toEqual(environment.authUrl + '/login?returnUnion=unions');
     });
     it('should contain register button', () => {
       const registerButton = getRegisterButton();
       expect(registerButton).toBeTruthy();
       expect(registerButton.nativeElement.textContent).toEqual('Register');
-      expect(registerButton.nativeElement.getAttribute('href')).toEqual(environment.authUrl + '/register?returnUnion=imprint');
+      expect(registerButton.nativeElement.getAttribute('href')).toEqual(environment.authUrl + '/register?returnUnion=unions');
     });
   });
   describe('when logged in', () => {

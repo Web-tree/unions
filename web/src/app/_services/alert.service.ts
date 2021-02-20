@@ -12,16 +12,16 @@ export class AlertService {
     this.awn = new AWN();
     this.options = {
       durations: {
-        alert: 0
+        alert: 10 * 100 * 30 // 30 seconds
       }
-    }
+    };
   }
 
-  success(message: string) {
+  success(message: string): void {
     this.awn.success(message);
   }
 
-  error(message: string) {
+  error(message: string): void {
     this.awn.alert(message, this.options);
   }
 }

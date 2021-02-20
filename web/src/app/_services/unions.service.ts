@@ -22,16 +22,16 @@ export class UnionsService {
   ) {
   }
 
-  // getList(): Promise<Data[]> {
-  //   return this.httpClient.get<Data[]>(environment.backendUrl + '/data').toPromise();
-  // }
+  my(): Promise<Union[]> {
+    return this.httpClient.get<Union[]>(environment.back.url + '/').toPromise();
+  }
 
   add(union: Union): Promise<any> {
-    return this.httpClient.put(environment.back.create, union).toPromise();
+    return this.httpClient.put(environment.back.url, union).toPromise();
   }
 
   get(id: string): Promise<Union> {
-    return this.httpClient.get<Union>(environment.back.get + '/' + id).toPromise();
+    return this.httpClient.get<Union>(environment.back.url + '/' + id).toPromise();
   }
   //
   //

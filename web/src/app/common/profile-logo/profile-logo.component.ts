@@ -13,8 +13,8 @@ export class ProfileLogoComponent implements OnInit {
   user: User = {};
   private username?: string;
   shortName?: string;
-  loginUrl: string = environment.authUrl + '/login?returnUnion=unions';
-  registerUrl: string = environment.authUrl + '/register?returnUnion=unions';
+  loginUrl: string = environment.authUrl + '/login?returnUnion=' + environment.returnUnion;
+  registerUrl: string = environment.authUrl + '/register?returnUnion=' + environment.returnUnion;
 
 
   constructor(
@@ -25,7 +25,7 @@ export class ProfileLogoComponent implements OnInit {
     return user.username?.slice(0, 2).toUpperCase();
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     if (this.authService.isLoggedIn()) {
       this.authService.getUser().then(user => {
         this.user = user;

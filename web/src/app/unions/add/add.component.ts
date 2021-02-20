@@ -29,32 +29,27 @@ export class AddComponent implements OnInit {
     private fb: FormBuilder,
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
   }
 
-  back() {
+  back(): void {
     this.location.back();
   }
 
-  onSubmit() {
+  onSubmit(): void {
     this.inProgress = true;
-    const union = this.form?.value;
-    union.name = this.getFormattedName();
-    this.dataService.add(union).then(() => {
+
+    this.dataService.add(this.form.value).then(() => {
       this.alertService.success('Union is added successfully');
-      this.router.navigate(['/' + union.name]);
+      this.router.navigate(['/u/' + this.form.value.id]);
     }).finally(() => this.inProgress = false);
   }
 
-  private regenerateForm() {
+  private regenerateForm(): FormGroup {
     this.form = this.fb.group({
       id: this.id,
       displayName: this.displayName,
     });
     return this.form;
-  }
-
-  private getFormattedName() {
-    return this.id.value.trim().toLowerCase().replace(/\s+/g, '-');
   }
 }

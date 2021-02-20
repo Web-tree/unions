@@ -22,8 +22,8 @@ describe('HttpErrorInterceptor', () => {
       ],
       imports: [HttpClientTestingModule, MatSnackBarModule],
     });
-    errorInterceptor = TestBed.get(HttpErrorInterceptor);
-    alertService = TestBed.get(AlertService);
+    errorInterceptor = TestBed.inject(HttpErrorInterceptor);
+    alertService = TestBed.inject(AlertService) as SpyObj<AlertService>;
   });
 
   xit('saveToken should save token correct', () => {

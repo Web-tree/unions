@@ -1,8 +1,8 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {ApplyTokenComponent} from './apply-token.component';
 import {ActivatedRoute, Router} from '@angular/router';
-import {TokenService} from '../_services/token.service';
+import {TokenService} from '../../_services/token.service';
 
 describe('ApplyTokenComponent', () => {
   let component: ApplyTokenComponent;
@@ -10,7 +10,7 @@ describe('ApplyTokenComponent', () => {
   let activatedRoute: ActivatedRoute;
   let router: Router;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     activatedRoute = jasmine.createSpyObj('ActivatedRoute', ['']);
     router = jasmine.createSpyObj('Router', ['']);
     activatedRoute.fragment = jasmine.createSpyObj('Subscribe', ['subscribe']);

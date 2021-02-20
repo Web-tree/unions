@@ -1,8 +1,7 @@
-import * as functions from 'firebase-functions';
-import _ = require('lodash');
 import {DocumentSnapshot} from '@google-cloud/firestore/build/src';
 import {Union} from '@webtree/unions-common/lib/model/union';
-import {isValidationError} from '@webtree/unions-common/lib/validators/validate';
+import {QuerySnapshot} from '@google-cloud/firestore';
+import _ = require('lodash');
 
 const Firestore = require('@google-cloud/firestore');
 const db = new Firestore({
@@ -11,11 +10,9 @@ const db = new Firestore({
 
 export class UnionsService {
     public async put(userId: string, union: Union): Promise<Union> {
-        isValidationError("")
         const unionRef = db.collection('unions').doc(union.id!);
         let unionFromDb: DocumentSnapshot<Union> = await unionRef.get();
 
-        functions.logger.debug(unionFromDb)
         if (unionFromDb.exists && unionFromDb.data()?.owner !== userId) {
             return Promise.reject("You don't have permissions to update this union.");
         }
@@ -31,7 +28,27 @@ export class UnionsService {
         return Promise.resolve(unionFromDb.data()!);
     }
 
-    // public get(id: string) {
-    //     return db.collection('unions').doc(id);
-    // }
+    public get(id: string): Promise<Union> {
+        const unionPromise: Promise<DocumentSnapshot<Union>> = db
+            .collection('unions')
+            .doc(id)
+            .get();
+        return unionPromise.then(value => value.data()!);
+    }
+
+    public listUnionsByOwner(owner: string): Promise<Union[]> {
+        console.log(owner)
+        return db
+            .collection('unions')
+            .where('owner', '==', owner)
+            .get()
+            .then((snapshot: QuerySnapshot) => {
+                console.log(snapshot)
+                const unions: Union[] = [];
+                snapshot.forEach(result => {
+                    unions.push(result.data())
+                });
+                return unions;
+            })
+    }
 }

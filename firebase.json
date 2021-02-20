@@ -10,6 +10,10 @@
     ]
   },
   "hosting": {
+    "predeploy": [
+      "npm --prefix web run lint",
+      "npm --prefix web run build:prod"
+    ],
     "public": "web/dist/unions-web",
     "ignore": [
       "firebase.json",
@@ -42,8 +46,5 @@
     "ui": {
       "enabled": true
     }
-  },
-  "remoteconfig": {
-    "template": "remoteconfig.template.json"
   }
 }
