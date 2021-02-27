@@ -8,6 +8,7 @@ import * as admin from 'firebase-admin';
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import {isHttpError} from './errors/http.error';
+import {ApiKeysService} from "./keys/api-keys-service";
 
 admin.initializeApp(functions.config().firebase);
 const app = express();
@@ -21,6 +22,7 @@ const userCache = new NodeCache();
 const authService = new AuthService(userCache);
 const unionsService = new UnionsService();
 const requestService = new RequestService();
+const apiKeyService = new ApiKeysService()
 
 const corsOptions = {
     origin: '*',
@@ -50,6 +52,23 @@ app.get('/', async (req, res) => {
         const user = await authService.getUser(requestService.getToken(req));
         const unionList = await unionsService.listUnionsByOwner(user.id);
         res.status(200).send(unionList);
+    } catch (e) {
+        handleError(e, res)
+    }
+})
+
+app.post('/:unionId/generateApiKeys', async (req, res) => {
+    try {
+        const userPromise = authService.getUser(requestService.getToken(req));
+        const unionPromise = unionsService.get(req.params.unionId);
+        await Promise.all([userPromise, unionPromise]);
+        const user = await userPromise;
+        const union = await unionPromise;
+        if (user.id !== union.owner) {
+            res.status(401).send("You're not authorized to modify this union");
+        }
+        const keys = await apiKeyService.newKeysForUnion(union.id!);
+        res.status(200).send(keys);
     } catch (e) {
         handleError(e, res)
     }
