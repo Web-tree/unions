@@ -63,7 +63,7 @@ async function isUnionOwner(unionId: string, req: any, res: any): Promise<boolea
     await Promise.all([userPromise, unionPromise]);
     const user = await userPromise;
     const union = await unionPromise;
-    if (user.id !== union.owner) {
+    if (!user || !union || user.id !== union.owner) {
         res.status(401).send("You're not authorized to modify this union");
         return false;
     }
@@ -86,7 +86,20 @@ app.get('/:unionId/getApiKeys', async (req, res) => {
     try {
         const unionId = req.params.unionId;
         if (await isUnionOwner(unionId, req, res)) {
-            res.status(200).send(await apiKeyService.getUnionsKeys(unionId))
+            res.status(200).send(await apiKeyService.getUnionsKeys(unionId));
+        }
+    } catch (e) {
+        handleError(e, res);
+    }
+});
+app.delete('/apiKeys/:appId', async (req, res) => {
+    try {
+        const appId = req.params.appId;
+        const unionId = await apiKeyService.getUnionIdByAppId(appId);
+        console.log(unionId);
+        if (await isUnionOwner(unionId, req, res)) {
+            await apiKeyService.delete(appId);
+            res.status(200).send();
         }
     } catch (e) {
         handleError(e, res);

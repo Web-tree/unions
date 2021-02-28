@@ -37,7 +37,6 @@ export class UnionsService {
     }
 
     public listUnionsByOwner(owner: string): Promise<Union[]> {
-        console.log(owner)
         return db
             .collection('unions')
             .where('owner', '==', owner)

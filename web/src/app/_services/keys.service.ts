@@ -20,4 +20,9 @@ export class KeysService {
   get(unionId: string): Promise<ApiKeysPair[]> {
     return this.httpClient.get<ApiKeysPair[]>(`${environment.back.url}/${unionId}/getApiKeys`).toPromise();
   }
+
+  delete(appId: string): Promise<void> {
+    return this.httpClient.delete<void>(`${environment.back.url}/apiKeys/${appId}`).toPromise();
+  }
+
 }

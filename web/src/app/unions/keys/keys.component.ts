@@ -32,4 +32,16 @@ export class KeysComponent implements OnInit {
     this.keysService.create(this.unionId)
       .then(keyPair => this.keys.push(keyPair));
   }
+
+  delete(appId: string): void {
+    this.keysService.delete(appId).then(() => {
+      for (const key of this.keys) {
+        if (key.appId === appId) {
+          const index = this.keys.indexOf(key);
+          this.keys.splice(index, 1);
+          break;
+        }
+      }
+    });
+  }
 }
