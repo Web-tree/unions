@@ -11,8 +11,6 @@ import {Observable, throwError} from 'rxjs';
 import {AlertService} from '../_services/alert.service';
 import {AuthService} from '../_services/auth.service';
 import {catchError} from 'rxjs/operators';
-import {isValidationError} from '@webtree/unions-common/lib/validators/validate';
-import {ValidationError} from 'class-validator';
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
