@@ -55,24 +55,43 @@ app.get('/', async (req, res) => {
     } catch (e) {
         handleError(e, res)
     }
-})
+});
+
+async function isUnionOwner(unionId: string, req: any, res: any): Promise<boolean> {
+    const userPromise = authService.getUser(requestService.getToken(req));
+    const unionPromise = unionsService.get(unionId);
+    await Promise.all([userPromise, unionPromise]);
+    const user = await userPromise;
+    const union = await unionPromise;
+    if (user.id !== union.owner) {
+        res.status(401).send("You're not authorized to modify this union");
+        return false;
+    }
+    return true;
+}
 
 app.post('/:unionId/generateApiKeys', async (req, res) => {
     try {
-        const userPromise = authService.getUser(requestService.getToken(req));
-        const unionPromise = unionsService.get(req.params.unionId);
-        await Promise.all([userPromise, unionPromise]);
-        const user = await userPromise;
-        const union = await unionPromise;
-        if (user.id !== union.owner) {
-            res.status(401).send("You're not authorized to modify this union");
+        const unionId = req.params.unionId;
+        if (await isUnionOwner(unionId, req, res)) {
+            const keys = await apiKeyService.newKeysForUnion(unionId);
+            res.status(200).send(keys);
         }
-        const keys = await apiKeyService.newKeysForUnion(union.id!);
-        res.status(200).send(keys);
     } catch (e) {
         handleError(e, res)
     }
-})
+});
+
+app.get('/:unionId/getApiKeys', async (req, res) => {
+    try {
+        const unionId = req.params.unionId;
+        if (await isUnionOwner(unionId, req, res)) {
+            res.status(200).send(await apiKeyService.getUnionsKeys(unionId))
+        }
+    } catch (e) {
+        handleError(e, res);
+    }
+});
 
 function handleError(e: any, res: express.Response) {
     if (isHttpError(e)) {

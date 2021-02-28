@@ -1,7 +1,24 @@
 <button mat-button color="primary" (click)="createKeys()">Create new keys</button>
 <mat-list>
   <mat-list-item *ngFor="let key of keys">
-    <p>App ID: {{key.appId}}</p>
-    <p *ngIf="key.appSecret">App Secret: {{key.appSecret}}</p>
+    <div>App ID:
+      <mat-form-field>
+        <input matInput disabled [value]="key.appId"/>
+        <button matSuffix mat-button mat-icon-button [cdkCopyToClipboard]="key.appId">
+          <mat-icon>content_copy</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+    <p *ngIf="key.appSecret">
+      App Secret: <mat-form-field>
+      <input matInput disabled [value]="key.appSecret"/>
+      <button matSuffix mat-button mat-icon-button [cdkCopyToClipboard]="key.appSecret">
+        <mat-icon>content_copy</mat-icon>
+      </button>
+      <button matSuffix mat-button mat-icon-button [cdkCopyToClipboard]="key.appSecret" (click)="key.appSecret = ''">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+    </p>
   </mat-list-item>
 </mat-list>

@@ -28,6 +28,7 @@ import {MyComponent} from './unions/my/my.component';
 import {MatTableModule} from '@angular/material/table';
 import { KeysComponent } from './unions/keys/keys.component';
 import {MatListModule} from '@angular/material/list';
+import {ClipboardModule} from '@angular/cdk/clipboard';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import {MatListModule} from '@angular/material/list';
     MatIconModule,
     MatListModule,
     ReactiveFormsModule,
+    ClipboardModule,
   ],
   providers: [
     TokenService,
