@@ -1,6 +1,7 @@
 import * as _ from "lodash";
 import {QuerySnapshot} from "@google-cloud/firestore";
 import {ApiKeysPair} from "@webtree/unions-common/lib/api-keys-pair";
+import {DocumentSnapshot} from "@google-cloud/firestore/build/src";
 
 const Firestore = require('@google-cloud/firestore');
 const db = new Firestore({
@@ -33,6 +34,17 @@ export class ApiKeysService {
                 });
                 return keys;
             })
+    }
+
+    public getUnionIdByAppId(appId: string): Promise<string> {
+        const promise: Promise<DocumentSnapshot<ApiKeysPair>> = db.collection(collectionPath)
+            .doc(appId)
+            .get();
+        return promise.then(snapshot => snapshot.data()?.unionId!);
+    }
+
+    public delete(appId: string): Promise<void> {
+        return db.collection(collectionPath).doc(appId).delete();
     }
 
     private static generateKeysPair(unionId: string): ApiKeysPair {
