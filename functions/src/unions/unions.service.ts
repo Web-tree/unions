@@ -43,7 +43,6 @@ export class UnionsService {
             .where('owner', '==', owner)
             .get()
             .then((snapshot: QuerySnapshot) => {
-                console.log(snapshot)
                 const unions: Union[] = [];
                 snapshot.forEach(result => {
                     unions.push(result.data())

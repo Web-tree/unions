@@ -1,0 +1,7 @@
+<button mat-button color="primary" (click)="createKeys()">Create new keys</button>
+<mat-list>
+  <mat-list-item *ngFor="let key of keys">
+    <p>App ID: {{key.appId}}</p>
+    <p *ngIf="key.appSecret">App Secret: {{key.appSecret}}</p>
+  </mat-list-item>
+</mat-list>

@@ -26,6 +26,8 @@ import {AboutComponent} from './about/about.component';
 import {SingleComponent} from './unions/single/single.component';
 import {MyComponent} from './unions/my/my.component';
 import {MatTableModule} from '@angular/material/table';
+import { KeysComponent } from './unions/keys/keys.component';
+import {MatListModule} from '@angular/material/list';
 
 @NgModule({
   declarations: [
@@ -36,6 +38,7 @@ import {MatTableModule} from '@angular/material/table';
     AboutComponent,
     SingleComponent,
     MyComponent,
+    KeysComponent,
   ],
   imports: [
     BrowserModule,
@@ -51,6 +54,7 @@ import {MatTableModule} from '@angular/material/table';
     MatInputModule,
     MatFormFieldModule,
     MatIconModule,
+    MatListModule,
     ReactiveFormsModule,
   ],
   providers: [
