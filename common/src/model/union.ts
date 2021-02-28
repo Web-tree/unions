@@ -6,5 +6,4 @@ export class Union {
   parent?: Union;
   children?: Union[] = [];
   tags?: string[] = [];
-
 }
