@@ -1,6 +1,6 @@
 {
   "name": "@webtree/unions-common",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "",
   "scripts": {
     "prepare": "npm run build",
