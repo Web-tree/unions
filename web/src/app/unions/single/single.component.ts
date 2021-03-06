@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {UnionsService} from '../../_services/unions.service';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Union} from '@webtree/unions-common/lib/model/union';
-import {AuthService} from "../../_services/auth.service";
+import {AuthService} from '../../_services/auth.service';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-single',
@@ -17,7 +18,8 @@ export class SingleComponent implements OnInit {
   constructor(
     private unionsService: UnionsService,
     private router: ActivatedRoute,
-    private authService: AuthService
+    private authService: AuthService,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -29,14 +31,45 @@ export class SingleComponent implements OnInit {
             if (this.authService.isLoggedIn()) {
               this.authService.getUser().then(user => {
                 this.isMine = union.owner === user.id;
-                this.loaded = true;
               });
             } else {
               this.isMine = false;
-              this.loaded = true;
             }
-          });
+          }).finally(() => this.loaded = true);
       }
     );
+  }
+
+  deleteConfirm(): void {
+    this.dialog.open(DeleteUnionConfirmationComponent, {data: this.union});
+  }
+}
+
+@Component({
+  selector: 'app-delete-union-confirmation',
+  templateUrl: 'delete-confirmation.html'
+})
+export class DeleteUnionConfirmationComponent implements OnInit {
+  inProgress = false;
+
+  constructor(
+    public dialogRef: MatDialogRef<DeleteUnionConfirmationComponent>,
+    @Inject(MAT_DIALOG_DATA) public union: Union,
+    private unionsService: UnionsService,
+    private router: Router,
+  ) {}
+
+  ngOnInit(): void {
+  }
+
+  deleteUnion(): void {
+    this.inProgress = true;
+    this.unionsService
+      .delete(this.union.id!)
+      .then(() => this.router.navigate(['/my']))
+      .finally(() => {
+        this.dialogRef.close();
+        this.inProgress = false;
+      });
   }
 }

@@ -1,0 +1,6 @@
+<h1>Are you sure you want to delete union?</h1>
+<mat-dialog-actions>
+  <button (click)="deleteUnion()" mat-raised-button color="warn" [disabled]="inProgress">Yes, delete</button>
+  <button mat-raised-button mat-dialog-close color="accent" [disabled]="inProgress">No, cancel deletion</button>
+</mat-dialog-actions>
+

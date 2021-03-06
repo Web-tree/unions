@@ -1,6 +1,6 @@
 import * as functions from 'firebase-functions';
 import {AuthService} from './auth/auth.service';
-import {UnionsService} from './unions/unions.service';
+import {UnionsRepo} from './unions/unions.repo';
 import {RequestService} from './request/request.service';
 import * as NodeCache from 'node-cache';
 import {Union} from '@webtree/unions-common/lib/model/union';
@@ -20,7 +20,7 @@ main.use(bodyParser.json());
 const userCache = new NodeCache();
 
 const authService = new AuthService(userCache);
-const unionsService = new UnionsService();
+const unionsRepo = new UnionsRepo();
 const requestService = new RequestService();
 const apiKeyService = new ApiKeysService()
 
@@ -33,7 +33,7 @@ app.put('/', async (req, res) => {
     try {
         const union = req.body as Union;
         const user = await authService.getUser(requestService.getToken(req));
-        res.send(await unionsService.put(user.id, union));
+        res.send(await unionsRepo.put(user.id, union));
     } catch (e) {
         handleError(e, res);
     }
@@ -41,7 +41,7 @@ app.put('/', async (req, res) => {
 
 app.get('/:unionId', async (req, res) => {
     try {
-        const union = await unionsService.get(req.params.unionId);
+        const union = await unionsRepo.get(req.params.unionId);
         res.status(200).send(union);
     } catch (e) {
         handleError(e, res);
@@ -50,25 +50,22 @@ app.get('/:unionId', async (req, res) => {
 app.get('/', async (req, res) => {
     try {
         const user = await authService.getUser(requestService.getToken(req));
-        const unionList = await unionsService.listUnionsByOwner(user.id);
+        const unionList = await unionsRepo.listUnionsByOwner(user.id);
         res.status(200).send(unionList);
     } catch (e) {
-        handleError(e, res)
+        handleError(e, res);
     }
 });
-
-async function isUnionOwner(unionId: string, req: any, res: any): Promise<boolean> {
-    const userPromise = authService.getUser(requestService.getToken(req));
-    const unionPromise = unionsService.get(unionId);
-    await Promise.all([userPromise, unionPromise]);
-    const user = await userPromise;
-    const union = await unionPromise;
-    if (!user || !union || user.id !== union.owner) {
-        res.status(401).send("You're not authorized to modify this union");
-        return false;
+app.delete('/:unionId', async (req, res) => {
+    try {
+        if (await isUnionOwner(req.params.unionId, req, res)) {
+            await unionsRepo.delete(req.params.unionId);
+            res.status(200).send();
+        }
+    } catch (e) {
+        handleError(e, res);
     }
-    return true;
-}
+});
 
 app.post('/:unionId/generateApiKeys', async (req, res) => {
     try {
@@ -92,6 +89,7 @@ app.get('/:unionId/getApiKeys', async (req, res) => {
         handleError(e, res);
     }
 });
+
 app.delete('/apiKeys/:appId', async (req, res) => {
     try {
         const appId = req.params.appId;
@@ -105,6 +103,20 @@ app.delete('/apiKeys/:appId', async (req, res) => {
         handleError(e, res);
     }
 });
+async function isUnionOwner(unionId: string, req: any, res: any): Promise<boolean> {
+    const userPromise = authService.getUser(requestService.getToken(req));
+    const unionPromise = unionsRepo.get(unionId);
+    await Promise.all([userPromise, unionPromise]);
+    const user = await userPromise;
+    const union = await unionPromise;
+    console.log(user, union, unionId)
+
+    if (!user || !union || user.id !== union.owner) {
+        res.status(403).send("You're not authorized to modify this union");
+        return false;
+    }
+    return true;
+}
 
 function handleError(e: any, res: express.Response) {
     if (isHttpError(e)) {

@@ -33,13 +33,8 @@ export class UnionsService {
   get(id: string): Promise<Union> {
     return this.httpClient.get<Union>(environment.back.url + '/' + id).toPromise();
   }
-  //
-  //
-  // update(data: Data) {
-  //   return this.httpClient.put(environment.backendUrl + '/data/' + data.name, data).toPromise();
-  // }
-  //
-  // delete(name: string): Promise<void> {
-  //   return this.httpClient.delete<void>(environment.backendUrl + '/data/' + name).toPromise();
-  // }
+
+  delete(id: string): Promise<void> {
+    return this.httpClient.delete<void>(environment.back.url + '/' + id).toPromise();
+  }
 }

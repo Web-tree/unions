@@ -2,6 +2,17 @@
   <h1>Union {{union.displayName}}</h1>
   <h2>Id {{union.id}}</h2>
   <app-keys *ngIf="isMine"></app-keys>
+  <mat-expansion-panel hideToggle>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Danger zone
+      </mat-panel-title>
+      <mat-panel-description>
+        Be careful with this actions
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <button (click)="deleteConfirm()" mat-raised-button color="warn">Delete union</button>
+  </mat-expansion-panel>
 </div>
 <div *ngIf="!loaded">
   <mat-progress-bar mode="indeterminate"></mat-progress-bar>

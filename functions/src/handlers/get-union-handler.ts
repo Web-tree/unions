@@ -4,9 +4,9 @@ import * as express from 'express';
 import {PathMatcher} from './path-matcher';
 
 export class GetUnionHandler implements Handler, PathMatcher {
-    // private unionsService: UnionsService
+    // private unionsService: UnionsRepo
     //
-    // constructor(unionsService: UnionsService) {
+    // constructor(unionsService: UnionsRepo) {
     //     this.unionsService = unionsService;
     // }
 
