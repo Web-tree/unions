@@ -3,7 +3,7 @@ import {TestBed} from '@angular/core/testing';
 import {UnionsService} from './unions.service';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {environment} from '../../environments/environment';
-import {Union} from '../../../../common/src/model/union';
+import {Union} from '@webtree/unions-common/lib/model/union';
 
 describe('DataService', () => {
   let httpMock: HttpTestingController;
