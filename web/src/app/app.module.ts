@@ -26,9 +26,11 @@ import {AboutComponent} from './about/about.component';
 import {SingleComponent} from './unions/single/single.component';
 import {MyComponent} from './unions/my/my.component';
 import {MatTableModule} from '@angular/material/table';
-import { KeysComponent } from './unions/keys/keys.component';
+import {KeysComponent} from './unions/keys/keys.component';
 import {MatListModule} from '@angular/material/list';
 import {ClipboardModule} from '@angular/cdk/clipboard';
+import {MatProgressBarModule} from "@angular/material/progress-bar";
+import {MatExpansionModule} from "@angular/material/expansion";
 
 @NgModule({
   declarations: [
@@ -56,6 +58,8 @@ import {ClipboardModule} from '@angular/cdk/clipboard';
     MatFormFieldModule,
     MatIconModule,
     MatListModule,
+    MatProgressBarModule,
+    MatExpansionModule,
     ReactiveFormsModule,
     ClipboardModule,
   ],

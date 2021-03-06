@@ -11,6 +11,7 @@ import {ActivatedRoute} from '@angular/router';
 export class KeysComponent implements OnInit {
   unionId = '';
   keys: ApiKeysPair[] = [];
+  loaded = false;
 
   constructor(
     private keysService: KeysService,
@@ -24,6 +25,7 @@ export class KeysComponent implements OnInit {
         .get(this.unionId)
         .then(keys => {
           this.keys = keys;
+          this.loaded = true;
         });
     });
   }

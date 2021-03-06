@@ -1,4 +1,4 @@
-<table *ngIf="unions" mat-table [dataSource]="unions" class="mat-elevation-z8">
+<table *ngIf="loaded" mat-table [dataSource]="unions" class="mat-elevation-z8">
 
   <ng-container matColumnDef="displayName">
     <th mat-header-cell *matHeaderCellDef>Name</th>
@@ -10,3 +10,7 @@
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
+
+<div *ngIf="!loaded">
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div>

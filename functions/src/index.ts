@@ -109,6 +109,8 @@ app.delete('/apiKeys/:appId', async (req, res) => {
 function handleError(e: any, res: express.Response) {
     if (isHttpError(e)) {
         res.status(e.code).send(e.message);
+    } else if (e.error.statusCode && e.error.statusMessage) {
+        res.status(e.error.statusCode).send(e.error.statusMessage);
     } else {
         functions.logger.error(e);
         res.status(500).send(e);
