@@ -23,14 +23,15 @@ import {TokenInterceptorProvider} from './_interceptors/token.interceptor';
 import {HttpErrorInterceptorProvider} from './_interceptors/http-error.interceptor';
 import {ApplyTokenComponent} from './common/apply-token/apply-token.component';
 import {AboutComponent} from './about/about.component';
-import {SingleComponent} from './unions/single/single.component';
+import {DeleteUnionConfirmationComponent, SingleComponent} from './unions/single/single.component';
 import {MyComponent} from './unions/my/my.component';
 import {MatTableModule} from '@angular/material/table';
 import {KeysComponent} from './unions/keys/keys.component';
 import {MatListModule} from '@angular/material/list';
 import {ClipboardModule} from '@angular/cdk/clipboard';
-import {MatProgressBarModule} from "@angular/material/progress-bar";
-import {MatExpansionModule} from "@angular/material/expansion";
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatDialogModule} from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import {MatExpansionModule} from "@angular/material/expansion";
     SingleComponent,
     MyComponent,
     KeysComponent,
+    DeleteUnionConfirmationComponent,
   ],
   imports: [
     BrowserModule,
@@ -60,6 +62,7 @@ import {MatExpansionModule} from "@angular/material/expansion";
     MatListModule,
     MatProgressBarModule,
     MatExpansionModule,
+    MatDialogModule,
     ReactiveFormsModule,
     ClipboardModule,
   ],

@@ -8,7 +8,7 @@ const db = new Firestore({
     projectId: 'webtree-unions',
 });
 
-export class UnionsService {
+export class UnionsRepo {
     public async put(userId: string, union: Union): Promise<Union> {
         const unionRef = db.collection('unions').doc(union.id!);
         let unionFromDb: DocumentSnapshot<Union> = await unionRef.get();
@@ -34,6 +34,13 @@ export class UnionsService {
             .doc(id)
             .get();
         return unionPromise.then(value => value.data()!);
+    }
+
+    public delete(id: string): Promise<void> {
+        return db
+            .collection('unions')
+            .doc(id)
+            .delete();
     }
 
     public listUnionsByOwner(owner: string): Promise<Union[]> {

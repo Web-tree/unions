@@ -1,5 +1,5 @@
 <div *ngIf="authService.isLoggedIn()">
-  <button [mat-menu-trigger-for]="profileLogoMenu" class="profile-button" color="warn" mat-fab>
+  <button [mat-menu-trigger-for]="profileLogoMenu" class="profile-button" color="accent" mat-fab>
     {{shortName}}
   </button>
   <mat-menu #profileLogoMenu='matMenu' class="profile-logo-menu">
@@ -8,6 +8,6 @@
   </mat-menu>
 </div>
 <div *ngIf="!authService.isLoggedIn()">
-  <a class="login-button" color="warn" href="{{loginUrl}}" mat-fab>Login</a>
+  <a class="login-button" color="accent" href="{{loginUrl}}" mat-fab>Login</a>
   <a class="register-button" color="accent" href="{{registerUrl}}" mat-fab>Register</a>
 </div>

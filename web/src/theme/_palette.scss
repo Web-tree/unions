@@ -12,7 +12,7 @@ $wt-green: (
   800 : #8bc05d,
   900 : #7bb54a,
   A100 : #ffffff,
-  A200 : #ecffdc,
+  A200 : #fa5252,
   A400 : #cfffa9,
   A700 : #c1ff90,
   contrast: (
@@ -34,7 +34,7 @@ $wt-green: (
 );
 
 $wt-primary: mat-palette($wt-green, 700, 300, 900);
-$wt-accent: mat-palette($wt-green);
+$wt-accent: mat-palette($wt-green, 600);
 $wt-warn: mat-palette($wt-green, A200);
 
 // create theme (use mat-dark-theme for themes with dark backgrounds)
