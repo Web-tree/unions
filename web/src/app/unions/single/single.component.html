@@ -1,3 +1,8 @@
-<h1>Union {{union.displayName}}</h1>
-<h2>Id {{union.id}}</h2>
-<app-keys></app-keys>
+<div *ngIf="loaded">
+  <h1>Union {{union.displayName}}</h1>
+  <h2>Id {{union.id}}</h2>
+  <app-keys *ngIf="isMine"></app-keys>
+</div>
+<div *ngIf="!loaded">
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div>

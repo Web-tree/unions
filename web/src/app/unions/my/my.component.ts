@@ -10,6 +10,7 @@ import {Union} from '@webtree/unions-common/lib/model/union';
 export class MyComponent implements OnInit {
   unions: Union[] = [];
   displayedColumns: string[] = ['displayName'];
+  loaded = false;
 
   constructor(
     private unionsService: UnionsService
@@ -18,7 +19,10 @@ export class MyComponent implements OnInit {
   ngOnInit(): void {
     this.unionsService
       .my()
-      .then(unions => this.unions = unions);
+      .then(unions => {
+        this.unions = unions;
+        this.loaded = true;
+      });
   }
 
 }

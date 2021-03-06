@@ -1,5 +1,5 @@
 <button mat-button color="primary" (click)="createKeys()">Create new keys</button>
-<mat-list>
+<mat-list *ngIf="loaded">
   <mat-list-item *ngFor="let key of keys">
     <div>App ID:
       <mat-form-field>
@@ -25,3 +25,7 @@
     </p>
   </mat-list-item>
 </mat-list>
+
+<div *ngIf="!loaded">
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div>
