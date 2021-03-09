@@ -13,6 +13,7 @@ const routes: Routes = [
   {path: 'about', component: AboutComponent},
   {path: 'my', component: MyComponent},
   {path: 'u/:unionId', component: SingleComponent},
+  {path: '**', redirectTo: "/about"},
 
 ];
 

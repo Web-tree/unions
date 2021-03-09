@@ -34,5 +34,4 @@ export class ProfileLogoComponent implements OnInit {
       });
     }
   }
-
 }

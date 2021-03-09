@@ -8,6 +8,6 @@
   </mat-menu>
 </div>
 <div *ngIf="!authService.isLoggedIn()">
-  <a class="login-button" color="accent" href="{{loginUrl}}" mat-fab>Login</a>
-  <a class="register-button" color="accent" href="{{registerUrl}}" mat-fab>Register</a>
+  <a (click)="authService.redirectToLoginPage()" class="login-button" color="accent" mat-fab>Login</a>
+  <a (click)="authService.redirectToRegisterPage()" class="register-button" color="accent" mat-fab>Register</a>
 </div>

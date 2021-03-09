@@ -1,7 +1,7 @@
 <p>
   <button routerLink="/add" mat-stroked-button color="primary">Add new Union</button>
 </p>
-<table *ngIf="loaded" mat-table [dataSource]="unions" class="mat-elevation-z8">
+<table *ngIf="loaded && unions.length > 0" mat-table [dataSource]="unions" class="mat-elevation-z8">
 
   <ng-container matColumnDef="displayName">
     <th mat-header-cell *matHeaderCellDef>Name</th>
@@ -16,4 +16,7 @@
 
 <div *ngIf="!loaded">
   <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div>
+<div *ngIf="loaded && unions.length < 1">
+  You don't have any union yet.
 </div>
