@@ -13,6 +13,24 @@
           "order": "ASCENDING"
         }
       ]
+    },
+    {
+      "collectionGroup": "unions-relations",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "unionParentId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "childType",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "childId",
+          "order": "ASCENDING"
+        }
+      ]
     }
   ],
   "fieldOverrides": []

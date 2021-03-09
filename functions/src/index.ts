@@ -2,13 +2,15 @@ import * as functions from 'firebase-functions';
 import {AuthService} from './auth/auth.service';
 import {UnionsRepo} from './unions/unions.repo';
 import {RequestService} from './request/request.service';
-import * as NodeCache from 'node-cache';
+import NodeCache from 'node-cache';
 import {Union} from '@webtree/unions-common/lib/model/union';
 import * as admin from 'firebase-admin';
-import * as express from 'express';
+import express from 'express';
 import * as bodyParser from 'body-parser';
-import {isHttpError} from './errors/http.error';
 import {ApiKeysService} from "./keys/api-keys-service";
+import {HandlerCreateUnionToUserRelationRequest} from './handlers/request-relation-handler';
+import {handleError} from './handlers/error-handler';
+import {HandlersConfig} from './handlers/handlers-config';
 
 admin.initializeApp(functions.config().firebase);
 const app = express();
@@ -23,13 +25,14 @@ const authService = new AuthService(userCache);
 const unionsRepo = new UnionsRepo();
 const requestService = new RequestService();
 const apiKeyService = new ApiKeysService()
+const config = new HandlersConfig();
 
 const corsOptions = {
     origin: '*',
 };
 app.use(cors(corsOptions));
 
-app.put('/', async (req, res) => {
+app.put('/', async (req: any, res: any) => {
     try {
         const union = req.body as Union;
         const user = await authService.getUser(requestService.getToken(req));
@@ -39,7 +42,7 @@ app.put('/', async (req, res) => {
     }
 });
 
-app.get('/:unionId', async (req, res) => {
+app.get('/:unionId', async (req: any, res: any) => {
     try {
         const union = await unionsRepo.get(req.params.unionId);
         res.status(200).send(union);
@@ -47,7 +50,7 @@ app.get('/:unionId', async (req, res) => {
         handleError(e, res);
     }
 });
-app.get('/', async (req, res) => {
+app.get('/', async (req: any, res: any) => {
     try {
         const user = await authService.getUser(requestService.getToken(req));
         const unionList = await unionsRepo.listUnionsByOwner(user.id);
@@ -56,7 +59,7 @@ app.get('/', async (req, res) => {
         handleError(e, res);
     }
 });
-app.delete('/:unionId', async (req, res) => {
+app.delete('/:unionId', async (req: any, res: any) => {
     try {
         if (await isUnionOwner(req.params.unionId, req, res)) {
             await unionsRepo.delete(req.params.unionId);
@@ -67,7 +70,7 @@ app.delete('/:unionId', async (req, res) => {
     }
 });
 
-app.post('/:unionId/generateApiKeys', async (req, res) => {
+app.post('/:unionId/generateApiKeys', async (req: any, res: any) => {
     try {
         const unionId = req.params.unionId;
         if (await isUnionOwner(unionId, req, res)) {
@@ -79,7 +82,7 @@ app.post('/:unionId/generateApiKeys', async (req, res) => {
     }
 });
 
-app.get('/:unionId/getApiKeys', async (req, res) => {
+app.get('/:unionId/getApiKeys', async (req: any, res: any) => {
     try {
         const unionId = req.params.unionId;
         if (await isUnionOwner(unionId, req, res)) {
@@ -90,11 +93,10 @@ app.get('/:unionId/getApiKeys', async (req, res) => {
     }
 });
 
-app.delete('/apiKeys/:appId', async (req, res) => {
+app.delete('/apiKeys/:appId', async (req: any, res: any) => {
     try {
         const appId = req.params.appId;
         const unionId = await apiKeyService.getUnionIdByAppId(appId);
-        console.log(unionId);
         if (await isUnionOwner(unionId, req, res)) {
             await apiKeyService.delete(appId);
             res.status(200).send();
@@ -103,6 +105,9 @@ app.delete('/apiKeys/:appId', async (req, res) => {
         handleError(e, res);
     }
 });
+
+app.post('/:unionId/requestInvite', new HandlerCreateUnionToUserRelationRequest(config).handle);
+
 async function isUnionOwner(unionId: string, req: any, res: any): Promise<boolean> {
     const userPromise = authService.getUser(requestService.getToken(req));
     const unionPromise = unionsRepo.get(unionId);
@@ -116,17 +121,6 @@ async function isUnionOwner(unionId: string, req: any, res: any): Promise<boolea
         return false;
     }
     return true;
-}
-
-function handleError(e: any, res: express.Response) {
-    if (isHttpError(e)) {
-        res.status(e.code).send(e.message);
-    } else if (e.error.statusCode && e.error.statusMessage) {
-        res.status(e.error.statusCode).send(e.error.statusMessage);
-    } else {
-        functions.logger.error(e);
-        res.status(500).send(e);
-    }
 }
 
 export const unions = functions

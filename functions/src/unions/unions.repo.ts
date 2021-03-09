@@ -1,6 +1,6 @@
-import {DocumentSnapshot} from '@google-cloud/firestore/build/src';
+import {DocumentSnapshot,QuerySnapshot} from '@google-cloud/firestore/build/src';
 import {Union} from '@webtree/unions-common/lib/model/union';
-import {QuerySnapshot} from '@google-cloud/firestore';
+
 import _ = require('lodash');
 
 const Firestore = require('@google-cloud/firestore');

@@ -8,11 +8,11 @@ export class AuthService {
 
   getUser(token: string): Promise<User> {
     functions.logger.debug(token)
-    const cachedUser = this.cache.get<User>(token);
 
-    if (cachedUser) {
+    if (this.cache.has(token)) {
+      const cachedUser = this.cache.get<User>(token);
       functions.logger.debug('Cached user', cachedUser)
-      return Promise.resolve(cachedUser);
+      return Promise.resolve(cachedUser!);
     }
 
     const options = {
@@ -47,7 +47,7 @@ export class AuthService {
       }
     }).then(user => {
       this.cache.set(token, user);
-      functions.logger.debug('Cached user', cachedUser)
+      functions.logger.debug('Caching user', user)
       return user;
     });
   }

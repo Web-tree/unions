@@ -1,7 +1,7 @@
 import * as _ from "lodash";
-import {QuerySnapshot} from "@google-cloud/firestore";
+import {QuerySnapshot,DocumentSnapshot} from "@google-cloud/firestore";
 import {ApiKeysPair} from "@webtree/unions-common/lib/api-keys-pair";
-import {DocumentSnapshot} from "@google-cloud/firestore/build/src";
+
 
 const Firestore = require('@google-cloud/firestore');
 const db = new Firestore({
